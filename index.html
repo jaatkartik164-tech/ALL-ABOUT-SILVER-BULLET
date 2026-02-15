@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>⚡ ICT Silver Bullet — Master Journal</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   ROOT VARIABLES
+═══════════════════════════════════════════════ */
+:root {
+  --bg:       #080b10;
+  --surface:  #0d1117;
+  --card:     #111520;
+  --card2:    #161b27;
+  --border:   #1e2535;
+  --border2:  #252d40;
+
+  --neon-gold:   #f0c040;
+  --neon-cyan:   #00e5ff;
+  --neon-green:  #39ff7a;
+  --neon-red:    #ff3b5c;
+  --neon-purple: #b06aff;
+  --neon-blue:   #4d9fff;
+
+  --glow-gold:   0 0 8px rgba(240,192,64,0.6),  0 0 20px rgba(240,192,64,0.2);
+  --glow-cyan:   0 0 8px rgba(0,229,255,0.6),   0 0 20px rgba(0,229,255,0.2);
+  --glow-green:  0 0 8px rgba(57,255,122,0.6),  0 0 20px rgba(57,255,122,0.2);
+  --glow-red:    0 0 8px rgba(255,59,92,0.6),   0 0 20px rgba(255,59,92,0.2);
+  --glow-purple: 0 0 8px rgba(176,106,255,0.6), 0 0 20px rgba(176,106,255,0.2);
+
+  --text:        #c9d4e8;
+  --text-muted:  #4e5a75;
+  --text-dim:    #2e3650;
+  --text-bright: #eaf0ff;
+
+  --font: 'Outfit', sans-serif;
+  --mono: 'Share Tech Mono', monospace;
+  --display: 'Rajdhani', sans-serif;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  font-weight: 300;
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* scanline texture */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.04) 2px,
+    rgba(0,0,0,0.04) 4px
+  );
+  pointer-events:none;
+  z-index:900;
+}
+
+::-webkit-scrollbar { width:5px; height:5px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius:3px; }
+
+/* ═══════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════ */
+.sidebar {
+  position: fixed;
+  left:0; top:0; bottom:0;
+  width: 252px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 200;
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand-icon {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.brand-name {
+  font-family: var(--display);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--neon-gold);
+  text-shadow: var(--glow-gold);
+  text-transform: uppercase;
+}
+
+.brand-sub {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.nav-group-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding: 16px 20px 5px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 8px 20px;
+  font-size: 13px;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.14s;
+}
+
+.nav-link:hover {
+  color: var(--text);
+  background: rgba(255,255,255,0.03);
+  border-left-color: var(--border2);
+}
+
+.nav-link.active {
+  color: var(--neon-gold);
+  background: rgba(240,192,64,0.06);
+  border-left-color: var(--neon-gold);
+  text-shadow: 0 0 10px rgba(240,192,64,0.4);
+}
+
+.nav-link .ni { font-size: 15px; width:20px; text-align:center; }
+
+.sidebar-footer {
+  margin-top: auto;
+  padding: 14px 20px;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+/* ═══════════════════════════════════════════════
+   MAIN
+═══════════════════════════════════════════════ */
+.main {
+  margin-left: 252px;
+  min-height: 100vh;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  padding: 60px 64px 50px;
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 600px 300px at 80% 50%, rgba(240,192,64,0.06), transparent),
+    radial-gradient(ellipse 400px 200px at 20% 80%, rgba(0,229,255,0.04), transparent);
+  pointer-events: none;
+}
+
+.hero-grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  border: 1px solid rgba(0,229,255,0.3);
+  padding: 4px 14px;
+  border-radius: 2px;
+  background: rgba(0,229,255,0.05);
+  margin-bottom: 18px;
+  text-shadow: var(--glow-cyan);
+  box-shadow: 0 0 12px rgba(0,229,255,0.1);
+}
+
+.hero-tag::before { content:'◆'; font-size:8px; }
+
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  color: var(--text-bright);
+  margin-bottom: 8px;
+}
+
+.hero h1 .accent {
+  color: var(--neon-gold);
+  text-shadow: var(--glow-gold);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-top: 24px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+.hero-meta .hm-item strong {
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px rgba(0,229,255,0.5);
+}
+
+/* ── CONTENT ── */
+.content { padding: 0 64px 100px; }
+
+/* ── SECTION ── */
+.section { padding-top: 56px; scroll-margin-top: 20px; }
+
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 26px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.section-header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 60px; height: 1px;
+  background: var(--neon-gold);
+  box-shadow: var(--glow-gold);
+}
+
+.sec-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--neon-gold);
+  opacity: 0.6;
+  letter-spacing: 0.12em;
+}
+
+.sec-title {
+  font-family: var(--display);
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-bright);
+}
+
+/* ── CALLOUTS ── */
+.callout {
+  border-left: 3px solid var(--neon-gold);
+  background: rgba(240,192,64,0.05);
+  border-radius: 0 6px 6px 0;
+  padding: 16px 22px;
+  margin: 18px 0;
+  font-size: 14px;
+  box-shadow: inset 0 0 30px rgba(240,192,64,0.03);
+}
+.callout.cyan { border-left-color: var(--neon-cyan); background: rgba(0,229,255,0.04); box-shadow: inset 0 0 30px rgba(0,229,255,0.02); }
+.callout.red   { border-left-color: var(--neon-red);  background: rgba(255,59,92,0.05);  box-shadow: inset 0 0 30px rgba(255,59,92,0.02); }
+.callout.green { border-left-color: var(--neon-green); background: rgba(57,255,122,0.04); box-shadow: inset 0 0 30px rgba(57,255,122,0.02); }
+.callout.purple{ border-left-color: var(--neon-purple); background: rgba(176,106,255,0.04);}
+
+.callout-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--neon-gold);
+  margin-bottom: 8px;
+}
+.callout.cyan   .callout-label { color: var(--neon-cyan); }
+.callout.red    .callout-label { color: var(--neon-red); }
+.callout.green  .callout-label { color: var(--neon-green); }
+.callout.purple .callout-label { color: var(--neon-purple); }
+
+/* ── WINDOWS GRID ── */
+.windows-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+  margin: 22px 0;
+}
+
+.window-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 22px 20px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.window-card::before {
+  content:'';
+  position:absolute;
+  top:0; left:0; right:0;
+  height:2px;
+}
+.window-card.w1::before { background: var(--neon-blue); box-shadow: 0 0 8px var(--neon-blue); }
+.window-card.w2::before { background: var(--neon-gold); box-shadow: var(--glow-gold); }
+.window-card.w3::before { background: var(--neon-purple); box-shadow: var(--glow-purple); }
+.window-card:hover { border-color: rgba(240,192,64,0.3); box-shadow: 0 0 20px rgba(240,192,64,0.06); }
+
+.wc-label { font-family: var(--mono); font-size:10px; letter-spacing:0.15em; text-transform:uppercase; color: var(--text-muted); margin-bottom:6px; }
+.wc-time  { font-family: var(--display); font-size:26px; font-weight:700; letter-spacing:0.04em; color: var(--text-bright); margin-bottom:2px; }
+.w1 .wc-time { color: var(--neon-blue); text-shadow: var(--glow-cyan); }
+.w2 .wc-time { color: var(--neon-gold); text-shadow: var(--glow-gold); }
+.w3 .wc-time { color: var(--neon-purple); text-shadow: var(--glow-purple); }
+.wc-tz  { font-family: var(--mono); font-size:10px; color: var(--text-muted); letter-spacing:0.08em; margin-bottom:10px; }
+.wc-badge {
+  display:inline-block;
+  font-family: var(--mono);
+  font-size:10px;
+  padding: 2px 10px;
+  border-radius:2px;
+  letter-spacing:0.08em;
+  margin-bottom:12px;
+}
+.w1 .wc-badge { background: rgba(77,159,255,0.12); color: var(--neon-blue); border:1px solid rgba(77,159,255,0.25); }
+.w2 .wc-badge { background: rgba(240,192,64,0.12); color: var(--neon-gold); border:1px solid rgba(240,192,64,0.25); }
+.w3 .wc-badge { background: rgba(176,106,255,0.12); color: var(--neon-purple); border:1px solid rgba(176,106,255,0.25); }
+.wc-note { font-size:12.5px; color: var(--text-muted); line-height:1.55; }
+
+/* ── STEPS ── */
+.steps { margin: 22px 0; counter-reset: step; }
+.step { display:flex; gap:18px; padding:18px 0; border-bottom:1px solid var(--border); }
+.step:last-child { border-bottom:none; }
+.step-num {
+  counter-increment: step;
+  flex-shrink:0;
+  width:32px; height:32px;
+  background: rgba(240,192,64,0.08);
+  border:1px solid rgba(240,192,64,0.25);
+  border-radius:4px;
+  display:flex; align-items:center; justify-content:center;
+  font-family: var(--mono);
+  font-size:12px;
+  color: var(--neon-gold);
+  box-shadow: 0 0 8px rgba(240,192,64,0.15);
+}
+.step-body h4 {
+  font-family: var(--display);
+  font-size:16px;
+  font-weight:600;
+  letter-spacing:0.03em;
+  color: var(--text-bright);
+  margin-bottom:6px;
+  text-transform:uppercase;
+}
+.step-body p { font-size:13.5px; }
+.tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
+.t {
+  font-family: var(--mono);
+  font-size:10px;
+  padding:2px 9px;
+  border-radius:2px;
+  letter-spacing:0.06em;
+}
+.t-gold   { background: rgba(240,192,64,0.08); color: var(--neon-gold); border:1px solid rgba(240,192,64,0.2); }
+.t-cyan   { background: rgba(0,229,255,0.08);  color: var(--neon-cyan); border:1px solid rgba(0,229,255,0.2); }
+.t-green  { background: rgba(57,255,122,0.08); color: var(--neon-green); border:1px solid rgba(57,255,122,0.2); }
+.t-red    { background: rgba(255,59,92,0.08);  color: var(--neon-red); border:1px solid rgba(255,59,92,0.2); }
+.t-gray   { background: rgba(255,255,255,0.05); color: var(--text-muted); border:1px solid var(--border); }
+
+/* ── 2-COL GRID ── */
+.two-col { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:22px 0; }
+.rule-card {
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:18px 20px;
+  font-size:13.5px;
+  transition: border-color 0.2s;
+}
+.rule-card:hover { border-color: rgba(240,192,64,0.2); }
+.rule-card .ri { font-size:20px; margin-bottom:8px; }
+.rule-card h5 {
+  font-family: var(--display);
+  font-size:14px;
+  font-weight:600;
+  letter-spacing:0.05em;
+  text-transform:uppercase;
+  color: var(--text-bright);
+  margin-bottom:6px;
+}
+.rule-card p { font-size:13px; color: var(--text); }
+
+/* ── BIAS GRID ── */
+.bias-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:22px 0; }
+.bias-card { background: var(--card); border:1px solid var(--border); border-radius:8px; overflow:hidden; }
+.bias-head { padding:12px 18px; font-family: var(--mono); font-size:11px; letter-spacing:0.12em; text-transform:uppercase; display:flex; align-items:center; gap:8px; }
+.bias-card.bull .bias-head { background: rgba(57,255,122,0.08); color: var(--neon-green); border-bottom:1px solid rgba(57,255,122,0.15); }
+.bias-card.bear .bias-head { background: rgba(255,59,92,0.08); color: var(--neon-red); border-bottom:1px solid rgba(255,59,92,0.15); }
+.bias-body { padding:14px 18px; font-size:13px; }
+.bias-body li { list-style:none; padding:3px 0; }
+.bias-body li::before { content:'→ '; color: var(--text-dim); }
+
+/* ── RISK STATS ── */
+.risk-stats { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin:22px 0; }
+.rstat {
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:18px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+.rstat::before {
+  content:'';
+  position:absolute;
+  bottom:0; left:0; right:0;
+  height:2px;
+  background: var(--neon-gold);
+  box-shadow: var(--glow-gold);
+  opacity:0.4;
+}
+.rstat .rv {
+  font-family: var(--display);
+  font-size:30px;
+  font-weight:700;
+  color: var(--neon-gold);
+  text-shadow: var(--glow-gold);
+  line-height:1.1;
+  margin-bottom:4px;
+}
+.rstat .rl { font-family: var(--mono); font-size:10px; color: var(--text-muted); text-transform:uppercase; letter-spacing:0.12em; }
+
+/* ── CHECKLIST ── */
+.checklist { list-style:none; margin:18px 0; }
+.checklist li {
+  display:flex;
+  align-items:flex-start;
+  gap:12px;
+  padding:9px 0;
+  font-size:13.5px;
+  border-bottom:1px solid rgba(30,37,53,0.7);
+  transition: background 0.12s;
+}
+.checklist li:hover { background: rgba(240,192,64,0.02); }
+.checklist li:last-child { border-bottom:none; }
+.cb {
+  flex-shrink:0;
+  width:18px; height:18px;
+  border:1.5px solid var(--border2);
+  border-radius:3px;
+  margin-top:3px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition: all 0.15s;
+  background: var(--card);
+}
+.cb:hover { border-color: var(--neon-gold); box-shadow: 0 0 6px rgba(240,192,64,0.3); }
+.cb.on { background: var(--neon-gold); border-color: var(--neon-gold); box-shadow: var(--glow-gold); }
+.cb.on::after { content:'✓'; font-size:11px; color:#000; font-weight:700; }
+.checklist li.done span { text-decoration:line-through; color: var(--text-muted); }
+
+/* ── ICT PHILOSOPHY BOX ── */
+.philosophy-box {
+  border:1px solid rgba(240,192,64,0.2);
+  border-radius:8px;
+  padding:32px 36px;
+  margin:24px 0;
+  background: rgba(240,192,64,0.03);
+  box-shadow: 0 0 30px rgba(240,192,64,0.04), inset 0 0 40px rgba(240,192,64,0.02);
+  position:relative;
+}
+.philosophy-box::before {
+  content:'"';
+  position:absolute;
+  top:12px; left:24px;
+  font-family: Georgia, serif;
+  font-size:70px;
+  color: rgba(240,192,64,0.12);
+  line-height:1;
+}
+.philosophy-box p {
+  font-family: 'Georgia', serif;
+  font-size:17px;
+  font-style:italic;
+  color: var(--text-bright);
+  line-height:1.65;
+  max-width:640px;
+  margin:0 auto 10px;
+  text-align:center;
+}
+.philosophy-box cite {
+  display:block;
+  text-align:center;
+  font-family: var(--mono);
+  font-size:11px;
+  color: var(--neon-gold);
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  font-style:normal;
+  text-shadow: 0 0 8px rgba(240,192,64,0.4);
+}
+
+/* ══════════════════════════════════════════════
+   ★ JOURNAL LOG  (fully editable)
+══════════════════════════════════════════════ */
+.journal-toolbar {
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px;
+  flex-wrap:wrap;
+}
+
+.j-btn {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding: 7px 16px;
+  border-radius:5px;
+  font-family: var(--mono);
+  font-size:11px;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  cursor:pointer;
+  border:none;
+  transition: all 0.15s;
+}
+
+.j-btn-add {
+  background: rgba(57,255,122,0.1);
+  color: var(--neon-green);
+  border:1px solid rgba(57,255,122,0.3);
+}
+.j-btn-add:hover {
+  background: rgba(57,255,122,0.2);
+  box-shadow: 0 0 12px rgba(57,255,122,0.2);
+}
+
+.j-btn-save {
+  background: rgba(240,192,64,0.1);
+  color: var(--neon-gold);
+  border:1px solid rgba(240,192,64,0.3);
+}
+.j-btn-save:hover {
+  background: rgba(240,192,64,0.2);
+  box-shadow: var(--glow-gold);
+}
+
+.j-btn-csv {
+  background: rgba(0,229,255,0.08);
+  color: var(--neon-cyan);
+  border:1px solid rgba(0,229,255,0.2);
+}
+.j-btn-csv:hover {
+  background: rgba(0,229,255,0.15);
+  box-shadow: var(--glow-cyan);
+}
+
+.j-btn-clear {
+  background: rgba(255,59,92,0.08);
+  color: var(--neon-red);
+  border:1px solid rgba(255,59,92,0.2);
+}
+.j-btn-clear:hover {
+  background: rgba(255,59,92,0.15);
+  box-shadow: var(--glow-red);
+}
+
+.j-status {
+  font-family: var(--mono);
+  font-size:10px;
+  color: var(--text-dim);
+  letter-spacing:0.1em;
+  margin-left:auto;
+}
+.j-status.saved { color: var(--neon-green); text-shadow: 0 0 8px rgba(57,255,122,0.4); }
+
+/* Table wrapper */
+.table-wrap {
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  overflow:auto;
+  box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+}
+
+#journal-table {
+  width:100%;
+  border-collapse:collapse;
+  font-size:12.5px;
+  font-family: var(--mono);
+}
+
+#journal-table thead tr {
+  background: rgba(240,192,64,0.05);
+  border-bottom:1px solid var(--border2);
+}
+
+#journal-table th {
+  padding:12px 14px;
+  text-align:left;
+  font-size:9px;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.15em;
+  color: var(--text-muted);
+  white-space:nowrap;
+}
+
+#journal-table td {
+  padding:11px 14px;
+  border-bottom:1px solid rgba(30,37,53,0.6);
+  color: var(--text);
+  vertical-align:top;
+  min-width:80px;
+}
+
+#journal-table td[contenteditable="true"] {
+  cursor:text;
+  outline:none;
+  transition: background 0.12s;
+}
+
+#journal-table td[contenteditable="true"]:hover {
+  background: rgba(240,192,64,0.04);
+}
+
+#journal-table td[contenteditable="true"]:focus {
+  background: rgba(240,192,64,0.08);
+  box-shadow: inset 0 0 0 1px rgba(240,192,64,0.3);
+}
+
+#journal-table tbody tr:last-child td { border-bottom:none; }
+#journal-table tbody tr:hover { background: rgba(255,255,255,0.015); }
+
+/* result badges */
+.badge {
+  display:inline-flex;
+  align-items:center;
+  padding:2px 9px;
+  border-radius:3px;
+  font-size:10px;
+  font-weight:500;
+  letter-spacing:0.06em;
+  white-space:nowrap;
+}
+.win-badge    { background:rgba(57,255,122,0.12);  color:var(--neon-green);  border:1px solid rgba(57,255,122,0.25); }
+.loss-badge   { background:rgba(255,59,92,0.12);   color:var(--neon-red);    border:1px solid rgba(255,59,92,0.25); }
+.skip-badge   { background:rgba(255,255,255,0.06); color:var(--text-muted);  border:1px solid var(--border); }
+.open-badge   { background:rgba(240,192,64,0.12);  color:var(--neon-gold);   border:1px solid rgba(240,192,64,0.25); }
+
+/* delete btn */
+.del-btn {
+  width:22px; height:22px;
+  border-radius:3px;
+  background: rgba(255,59,92,0.1);
+  border:1px solid rgba(255,59,92,0.2);
+  color: var(--neon-red);
+  font-size:14px;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  transition:all 0.12s;
+  line-height:1;
+}
+.del-btn:hover {
+  background:rgba(255,59,92,0.25);
+  box-shadow: var(--glow-red);
+}
+
+/* Notes textareas in journal */
+td.note-cell {
+  min-width:200px;
+  max-width:340px;
+}
+
+/* ── GLOSSARY ── */
+.gloss-item {
+  display:grid;
+  grid-template-columns:180px 1fr;
+  gap:18px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13.5px;
+}
+.gloss-item:last-child { border-bottom:none; }
+.gloss-term {
+  font-family: var(--mono);
+  color: var(--neon-gold);
+  font-size:12.5px;
+  font-weight:500;
+  padding-top:1px;
+  text-shadow: 0 0 8px rgba(240,192,64,0.3);
+}
+.gloss-def { color: var(--text); line-height:1.7; }
+
+/* FVG diagram */
+.fvg-box {
+  background: var(--card);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:24px;
+  margin:22px 0;
+  overflow-x:auto;
+}
+.fvg-box svg { display:block; margin:0 auto; }
+
+/* ── FOOTER ── */
+.footer {
+  padding:40px 64px 30px;
+  border-top:1px solid var(--border);
+  text-align:center;
+  font-family: var(--mono);
+  font-size:11px;
+  color: var(--text-dim);
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+}
+.footer .neon-line {
+  display:block;
+  width:120px;
+  height:1px;
+  background: var(--neon-gold);
+  box-shadow: var(--glow-gold);
+  margin:16px auto;
+}
+
+/* fade in */
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.section { animation: fadeUp 0.45s ease both; }
+.section:nth-child(1){ animation-delay:0.04s }
+.section:nth-child(2){ animation-delay:0.08s }
+.section:nth-child(3){ animation-delay:0.12s }
+.section:nth-child(4){ animation-delay:0.16s }
+.section:nth-child(5){ animation-delay:0.20s }
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:900px){
+  .sidebar { display:none; }
+  .main { margin-left:0; }
+  .hero, .content { padding-left:20px; padding-right:20px; }
+  .windows-grid, .two-col, .bias-grid { grid-template-columns:1fr; }
+  .risk-stats { grid-template-columns:repeat(2,1fr); }
+  .gloss-item { grid-template-columns:1fr; gap:4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     SIDEBAR
+══════════════════════════════════════════════ -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-icon">⚡</div>
+    <div class="brand-name">Silver Bullet</div>
+    <div class="brand-sub">ICT Master Journal v3</div>
+  </div>
+
+  <div class="nav-group-label">Strategy</div>
+  <a href="#overview"    class="nav-link active"><span class="ni">◈</span> Overview</a>
+  <a href="#windows"     class="nav-link"><span class="ni">⏱</span> Kill Zone Windows</a>
+  <a href="#setup"       class="nav-link"><span class="ni">⚡</span> Setup Criteria</a>
+  <a href="#fvg"         class="nav-link"><span class="ni">▦</span> Fair Value Gap</a>
+  <a href="#bias"        class="nav-link"><span class="ni">↕</span> Market Bias</a>
+
+  <div class="nav-group-label">Execution</div>
+  <a href="#entry"       class="nav-link"><span class="ni">→</span> Entry Rules</a>
+  <a href="#sl-tp"       class="nav-link"><span class="ni">⊹</span> SL / TP</a>
+  <a href="#risk"        class="nav-link"><span class="ni">◎</span> Risk Model</a>
+  <a href="#discipline"  class="nav-link"><span class="ni">⬡</span> Discipline Code</a>
+  <a href="#philosophy"  class="nav-link"><span class="ni">💬</span> ICT Teachings</a>
+
+  <div class="nav-group-label">Journal</div>
+  <a href="#checklist"   class="nav-link"><span class="ni">☑</span> Pre-Trade Checklist</a>
+  <a href="#log"         class="nav-link"><span class="ni">✏</span> Trade Log ← Edit Here</a>
+  <a href="#glossary"    class="nav-link"><span class="ni">§</span> Glossary</a>
+
+  <div class="sidebar-footer">
+    EST Kill Zones: 03–04 · 10–11 · 14–15
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════════ -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-lines"></div>
+    <div class="hero-tag">ICT Concept · Inner Circle Trader · Silver Bullet</div>
+    <h1>The <span class="accent">Silver Bullet</span><br>Master Playbook</h1>
+    <div class="hero-meta">
+      <div class="hm-item">Strategy <strong>Silver Bullet</strong></div>
+      <div class="hm-item">Timeframe <strong>1m · 5m · 15m</strong></div>
+      <div class="hm-item">Markets <strong>Forex · Indices · Futures</strong></div>
+      <div class="hm-item">Session <strong>EST Based</strong></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── 01 OVERVIEW ── -->
+    <div class="section" id="overview">
+      <div class="section-header">
+        <span class="sec-num">01</span>
+        <h2 class="sec-title">Overview & Core Concept</h2>
+      </div>
+
+      <p style="font-size:14.5px;line-height:1.85;max-width:760px;margin-bottom:18px;">The <strong style="color:var(--text-bright)">ICT Silver Bullet</strong> is a time-based entry model built on institutional order flow mechanics. Its foundation is the predictable pattern of smart money creating a deceptive price swing during specific 1-hour windows — sweeping retail stop orders from liquidity pools — then reversing sharply into a Fair Value Gap. Your job is to <em>wait</em> for that sequence, not predict it.</p>
+
+      <div class="callout">
+        <div class="callout-label">Core Premise</div>
+        Price does not move randomly. It is engineered by institutions to reach areas where resting orders and stop clusters exist. The Silver Bullet model targets the transition point between the manipulation phase and the actual distribution — the moment smart money finishes filling their position and begins delivering price to the opposing liquidity pool.
+      </div>
+
+      <div class="callout cyan">
+        <div class="callout-label">The 3 Non-Negotiable Ingredients</div>
+        <strong style="color:var(--text-bright)">1. TIME —</strong> You must be inside one of the three defined 60-minute kill zone windows. Outside of them, no setup exists.<br><br>
+        <strong style="color:var(--text-bright)">2. LIQUIDITY SWEEP —</strong> Price must aggressively trade through a marked pool of resting orders (equal highs, equal lows, swing points, session highs/lows) — triggering stop orders there.<br><br>
+        <strong style="color:var(--text-bright)">3. FAIR VALUE GAP —</strong> Immediately after the sweep, a 3-candle imbalance must form in the opposing direction. This gap becomes your entry zone on the retracement.
+      </div>
+    </div>
+
+    <!-- ── 02 WINDOWS ── -->
+    <div class="section" id="windows">
+      <div class="section-header">
+        <span class="sec-num">02</span>
+        <h2 class="sec-title">The Three Kill Zone Windows</h2>
+      </div>
+
+      <p style="font-size:14px;margin-bottom:18px;">All times are <strong style="color:var(--text-bright)">New York EST/EDT</strong>. Each window is exactly <strong style="color:var(--neon-gold)">60 minutes</strong>. The clock starts and stops on the hour — no extensions.</p>
+
+      <div class="windows-grid">
+        <div class="window-card w1">
+          <div class="wc-label">Window 01</div>
+          <div class="wc-time">03:00 – 04:00</div>
+          <div class="wc-tz">AM EST · London Open</div>
+          <span class="wc-badge">London Kill Zone</span>
+          <div class="wc-note">London opens with institutional momentum. Asian session closes, leaving liquidity clusters that London institutions will target. The sweeps here are often clean and fast. Lower overall volume but high precision setups when they form.</div>
+        </div>
+        <div class="window-card w2">
+          <div class="wc-label">Window 02 — HIGHEST PROBABILITY</div>
+          <div class="wc-time">10:00 – 11:00</div>
+          <div class="wc-tz">AM EST · New York AM</div>
+          <span class="wc-badge">NY AM Kill Zone</span>
+          <div class="wc-note">The most powerful and reliable Silver Bullet window. London has already moved; NY now creates the reversal. Indices (NQ, ES) are particularly clean here. The 10:00–10:30 AM range often contains the sweep and FVG formation.</div>
+        </div>
+        <div class="window-card w3">
+          <div class="wc-label">Window 03</div>
+          <div class="wc-time">14:00 – 15:00</div>
+          <div class="wc-tz">PM EST · New York PM</div>
+          <span class="wc-badge">NY PM Kill Zone</span>
+          <div class="wc-note">Afternoon reversal window. Targets the opposing liquidity from the AM session. Works best when there is an obvious untouched pool from the morning. Lower probability than the AM window — be more selective here.</div>
+        </div>
+      </div>
+
+      <div class="callout red">
+        <div class="callout-label">Iron Rule — Window Discipline</div>
+        When the clock reads <strong>04:01, 11:01, or 15:01</strong> — the window is closed. You do not enter a trade. You do not bend this rule for "almost perfect" setups. The edge is inseparable from the time. A trade taken outside the window is not a Silver Bullet trade — it is speculation.
+      </div>
+    </div>
+
+    <!-- ── 03 SETUP ── -->
+    <div class="section" id="setup">
+      <div class="section-header">
+        <span class="sec-num">03</span>
+        <h2 class="sec-title">Setup Criteria — Step by Step</h2>
+      </div>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Establish HTF Bias Before the Session Opens</h4>
+            <p>On the daily and 4-hour chart: Are we trending bullish or bearish? Where is price relative to premium vs discount? Mark the previous day's high (PDH), previous day's low (PDL), and the weekly opening price. Your Silver Bullet direction must align with this HTF reading — long only in discount, short only in premium.</p>
+            <div class="tags"><span class="t t-gray">Daily Chart</span><span class="t t-gray">4H Context</span><span class="t t-gold">PDH / PDL</span><span class="t t-gold">Weekly Open</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Mark All Liquidity Pools Before the Window Opens</h4>
+            <p>On the 15m and 1m chart: locate every cluster of resting stop orders. Equal highs, equal lows, double tops/bottoms, previous session swing points, overnight range extremes. Draw horizontal lines at each. These are the targets smart money will sweep. If you cannot identify a clear pool, there is no setup to look for.</p>
+            <div class="tags"><span class="t t-gold">Equal Highs</span><span class="t t-gold">Equal Lows</span><span class="t t-gray">Prev Session H/L</span><span class="t t-gray">BSL / SSL</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>At Window Open — Watch. Do Not Touch.</h4>
+            <p>Switch to 1m or 2m chart. Your only job now is observation. You are waiting for price to reach a marked liquidity pool and trade aggressively through it. Do not anticipate, do not enter early, do not move your pre-drawn levels. Remain completely passive until the sweep event occurs.</p>
+            <div class="tags"><span class="t t-cyan">1m Chart</span><span class="t t-cyan">2m Chart</span><span class="t t-red">No Early Entry</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Confirm the Liquidity Sweep Has Occurred</h4>
+            <p>The sweep is confirmed when price spikes definitively beyond a marked liquidity level — triggering the stop orders — and then immediately begins to reverse. A pronounced wick that penetrates the level, or a quick series of candles that push beyond it and snap back. The close does not have to be beyond the level; the wick alone confirms the sweep.</p>
+            <div class="tags"><span class="t t-green">Wick Rejection</span><span class="t t-green">Spike & Reverse</span><span class="t t-gold">Stops Triggered</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Identify the Silver Bullet FVG</h4>
+            <p>After the sweep, price will begin moving in the opposing direction with displacement candles. Within this move, locate the first 3-candle Fair Value Gap: the high of candle 1's wick and the low of candle 3's wick must not overlap. This gap is your entry zone. It must form <em>after</em> the sweep — not before.</p>
+            <div class="tags"><span class="t t-gold">Post-Sweep FVG</span><span class="t t-gold">3-Candle Pattern</span><span class="t t-cyan">Imbalance Zone</span></div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h4>Enter on Retracement Into the FVG</h4>
+            <p>Set a limit order at the 50% midpoint of the FVG (most common) or the near edge (more conservative). As price retraces into the gap, your limit fills. The trade is active. If price passes completely through the FVG without reaction, the setup is invalidated — do not chase it with a market order.</p>
+            <div class="tags"><span class="t t-green">Limit @ 50% FVG</span><span class="t t-green">Near-Edge Entry</span><span class="t t-red">No Chase</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 04 FVG ── -->
+    <div class="section" id="fvg">
+      <div class="section-header">
+        <span class="sec-num">04</span>
+        <h2 class="sec-title">Fair Value Gap — Deep Dive</h2>
+      </div>
+
+      <div class="fvg-box">
+        <svg width="580" height="195" viewBox="0 0 580 195">
+          <defs>
+            <style>
+              .ml { font-family:'Share Tech Mono',monospace; font-size:10px; fill:#4e5a75; }
+              .mb { font-family:'Share Tech Mono',monospace; font-size:10px; fill:#9ba8b5; }
+              .mt { font-family:'Rajdhani',sans-serif; font-size:13px; fill:#f0c040; font-weight:700; letter-spacing:2px; }
+              .ment { font-family:'Share Tech Mono',monospace; font-size:10px; fill:#f0c040; }
+            </style>
+          </defs>
+          <!-- BULLISH -->
+          <text x="30" y="18" class="mt">BULLISH FVG</text>
+          <text x="30" y="34" class="ml" style="font-size:9px">Bearish sweep → bullish reversal displacement</text>
+          <!-- C1 bearish -->
+          <rect x="50" y="138" width="20" height="38" fill="#ff3b5c" opacity="0.8" rx="1"/>
+          <line x1="60" y1="128" x2="60" y2="138" stroke="#ff3b5c" stroke-width="1.5"/>
+          <line x1="60" y1="176" x2="60" y2="188" stroke="#ff3b5c" stroke-width="1.5"/>
+          <text x="42" y="198" class="ml">C1</text>
+          <!-- C1 low dashed line -->
+          <line x1="50" y1="138" x2="108" y2="138" stroke="#252d40" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- C2 big bullish -->
+          <rect x="100" y="92" width="20" height="84" fill="#39ff7a" opacity="0.85" rx="1"/>
+          <line x1="110" y1="72" x2="110" y2="92" stroke="#39ff7a" stroke-width="1.5"/>
+          <line x1="110" y1="176" x2="110" y2="190" stroke="#39ff7a" stroke-width="1.5"/>
+          <text x="93" y="198" class="ml">C2</text>
+          <!-- C3 bullish -->
+          <rect x="150" y="65" width="20" height="52" fill="#39ff7a" opacity="0.65" rx="1"/>
+          <line x1="160" y1="50" x2="160" y2="65" stroke="#39ff7a" stroke-width="1.5"/>
+          <line x1="160" y1="117" x2="160" y2="130" stroke="#39ff7a" stroke-width="1.5"/>
+          <text x="143" y="198" class="ml">C3</text>
+          <!-- FVG zone -->
+          <rect x="100" y="130" width="72" height="8" fill="rgba(57,255,122,0.12)" rx="1"/>
+          <rect x="100" y="130" width="72" height="8" fill="none" stroke="#39ff7a" stroke-width="0.8" stroke-dasharray="2,2" rx="1"/>
+          <text x="178" y="138" class="ment" style="fill:#39ff7a;font-size:9px">← FVG ZONE (C1 low → C3 low)</text>
+          <!-- entry arrow -->
+          <path d="M 215 150 L 178 150 L 178 134" stroke="#f0c040" stroke-width="1.2" fill="none"/>
+          <polygon points="178,134 175,140 181,140" fill="#f0c040"/>
+          <text x="218" y="153" class="ment">ENTRY ↑</text>
+
+          <!-- BEARISH -->
+          <text x="320" y="18" class="mt">BEARISH FVG</text>
+          <text x="320" y="34" class="ml" style="font-size:9px">Bullish sweep → bearish reversal displacement</text>
+          <!-- C1 bullish -->
+          <rect x="340" y="55" width="20" height="38" fill="#39ff7a" opacity="0.8" rx="1"/>
+          <line x1="350" y1="45" x2="350" y2="55" stroke="#39ff7a" stroke-width="1.5"/>
+          <line x1="350" y1="93" x2="350" y2="103" stroke="#39ff7a" stroke-width="1.5"/>
+          <text x="333" y="198" class="ml">C1</text>
+          <line x1="340" y1="93" x2="398" y2="93" stroke="#252d40" stroke-width="1" stroke-dasharray="3,3"/>
+          <!-- C2 big bearish -->
+          <rect x="390" y="55" width="20" height="82" fill="#ff3b5c" opacity="0.85" rx="1"/>
+          <line x1="400" y1="36" x2="400" y2="55" stroke="#ff3b5c" stroke-width="1.5"/>
+          <line x1="400" y1="137" x2="400" y2="152" stroke="#ff3b5c" stroke-width="1.5"/>
+          <text x="383" y="198" class="ml">C2</text>
+          <!-- C3 bearish -->
+          <rect x="440" y="104" width="20" height="48" fill="#ff3b5c" opacity="0.65" rx="1"/>
+          <line x1="450" y1="92" x2="450" y2="104" stroke="#ff3b5c" stroke-width="1.5"/>
+          <line x1="450" y1="152" x2="450" y2="164" stroke="#ff3b5c" stroke-width="1.5"/>
+          <text x="433" y="198" class="ml">C3</text>
+          <!-- FVG zone bearish -->
+          <rect x="390" y="93" width="72" height="9" fill="rgba(255,59,92,0.12)" rx="1"/>
+          <rect x="390" y="93" width="72" height="9" fill="none" stroke="#ff3b5c" stroke-width="0.8" stroke-dasharray="2,2" rx="1"/>
+          <text x="468" y="101" class="ment" style="fill:#ff3b5c;font-size:9px">← FVG ZONE</text>
+          <!-- entry arrow bearish -->
+          <path d="M 505 75 L 465 75 L 465 95" stroke="#f0c040" stroke-width="1.2" fill="none"/>
+          <polygon points="465,95 462,89 468,89" fill="#f0c040"/>
+          <text x="508" y="78" class="ment">ENTRY ↓</text>
+        </svg>
+      </div>
+
+      <div class="two-col">
+        <div class="rule-card">
+          <div class="ri">📐</div>
+          <h5>How to Draw the FVG</h5>
+          <p>Mark from the <strong style="color:var(--text-bright)">low of candle 1</strong> to the <strong style="color:var(--text-bright)">low of candle 3</strong> (bullish FVG), or from the <strong style="color:var(--text-bright)">high of candle 1</strong> to the <strong style="color:var(--text-bright)">high of candle 3</strong> (bearish FVG). There must be a visible gap — no overlap between C1's wick and C3's wick.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">🎯</div>
+          <h5>Entry Precision Inside the FVG</h5>
+          <p>The 50% midpoint of the FVG is the optimal entry. More conservative traders enter at the near edge (top of bullish FVG, bottom of bearish FVG). Some use the full FVG as a zone. All approaches are valid — choose one and be consistent.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">✅</div>
+          <h5>What Makes a Valid FVG</h5>
+          <p>Must form <em>after</em> the sweep on the 1m/2m chart, within the window. The gap must be measurable. Larger displacement candles creating the FVG = higher institutional conviction = higher probability entry.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">❌</div>
+          <h5>Invalid FVG Situations</h5>
+          <p>FVG forms before the sweep (this is inducement). The gap has been completely filled already. Multiple stacked FVGs exist — take the one created by the first displacement move after the sweep. Tiny, 1-pip gaps in high-spread instruments.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 05 BIAS ── -->
+    <div class="section" id="bias">
+      <div class="section-header">
+        <span class="sec-num">05</span>
+        <h2 class="sec-title">Reading Market Bias</h2>
+      </div>
+
+      <p style="font-size:14px;margin-bottom:18px;">Your Silver Bullet trade direction is determined before the window opens — not during it. The window only provides the precise entry mechanism. The bias tells you which direction to look for setups.</p>
+
+      <div class="bias-grid">
+        <div class="bias-card bull">
+          <div class="bias-head">↑ Bullish Bias Signals</div>
+          <div class="bias-body">
+            <ul>
+              <li>Price is above the previous day's opening price</li>
+              <li>4H and daily are forming higher highs and higher lows</li>
+              <li>Price is currently in a discount (below 50% of the dealing range)</li>
+              <li>The current daily candle opened bullish and has not reversed</li>
+              <li>AMD: price is in the accumulation or manipulation low phase</li>
+              <li>NY open gapped above or opened at Asian session highs</li>
+              <li>Price is sitting above a known bullish order block or breaker</li>
+              <li>Macro/news context aligns with risk-on sentiment</li>
+            </ul>
+          </div>
+        </div>
+        <div class="bias-card bear">
+          <div class="bias-head">↓ Bearish Bias Signals</div>
+          <div class="bias-body">
+            <ul>
+              <li>Price is below the previous day's opening price</li>
+              <li>4H and daily are forming lower highs and lower lows</li>
+              <li>Price is currently in a premium (above 50% of the dealing range)</li>
+              <li>The current daily candle opened bearish and is distributing lower</li>
+              <li>AMD: price is in distribution or manipulation high phase</li>
+              <li>NY open gapped below or opened at Asian session lows</li>
+              <li>Price is sitting below a known bearish order block or breaker</li>
+              <li>Macro/news context aligns with risk-off sentiment</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout" style="border-left-color:var(--neon-purple);background:rgba(176,106,255,0.05);">
+        <div class="callout-label" style="color:var(--neon-purple)">AMD Cycle Context</div>
+        In a bullish delivery day, the AM session often creates a false move downward — sweeping sell-side liquidity — before the actual distribution higher occurs. The Silver Bullet model specifically targets this manipulation-to-distribution turning point. Understanding whether you are in the manipulation phase or already in distribution changes how aggressive your entry and targets should be.
+      </div>
+    </div>
+
+    <!-- ── 06 ENTRY ── -->
+    <div class="section" id="entry">
+      <div class="section-header">
+        <span class="sec-num">06</span>
+        <h2 class="sec-title">Entry Execution Rules</h2>
+      </div>
+
+      <div class="two-col">
+        <div class="rule-card">
+          <div class="ri">⌛</div>
+          <h5>Limit Orders — Always Preferred</h5>
+          <p>Place a limit order at the FVG zone before price retraces into it. This gives you a defined fill price, avoids slippage, and keeps your SL calculation precise. Market orders during the volatile displacement move lead to poor fills and distorted R:R.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">1️⃣</div>
+          <h5>One Trade Per Window — Maximum</h5>
+          <p>One setup, one entry, per window. If you are stopped out, the window is finished. Re-entering after a loss within the same window is not part of the model — it is the beginning of emotional trading, which destroys accounts.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">🚫</div>
+          <h5>No Chasing Missed Entries</h5>
+          <p>If price retraces into and through the FVG without triggering your limit, or if you missed placing the order in time — the trade is over. There is no version of this model that includes chasing price with a market order. Accept the miss.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">📰</div>
+          <h5>News Events — Automatic Skip</h5>
+          <p>Do not trade any Silver Bullet window that overlaps with high-impact news releases (NFP, CPI, FOMC, GDP). The news creates artificial displacement that mimics the setup structure but carries unpredictable continuation risk. Skip the entire window on major news days.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">💎</div>
+          <h5>Confluence Stacking</h5>
+          <p>The best setups have multiple reasons to enter: correct window + HTF bias + clean sweep of a visible pool + FVG at a known PD Array (order block, breaker, mitigation block). The more confluence, the higher the conviction — and the larger the permitted position size within your risk rules.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">📏</div>
+          <h5>Execution Timeframe</h5>
+          <p>Entry precision comes from the 1-minute chart. Use the 5-minute chart to identify the setup context and sweep level. The 15-minute and higher charts are for bias only — never for Silver Bullet entry timing.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 07 SL/TP ── -->
+    <div class="section" id="sl-tp">
+      <div class="section-header">
+        <span class="sec-num">07</span>
+        <h2 class="sec-title">Stop Loss & Take Profit Placement</h2>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">Stop Loss Rule</div>
+        Your stop loss is placed <em>beyond the swept liquidity level</em> — not inside the FVG, not at a random price. For a long trade, SL goes a few pips/ticks below the sweep low. For a short trade, SL goes a few pips/ticks above the sweep high. Add a buffer for spread (1–3 pips on Forex, 1–2 points on indices). This placement is logical — if price retrades through the liquidity sweep, the setup has structurally failed.
+      </div>
+
+      <div class="callout green">
+        <div class="callout-label">Take Profit Hierarchy</div>
+        <strong style="color:var(--text-bright)">TP1 — Minimum (1:1 R:R):</strong> The first structural high or low before the sweep. Close 25–50% of the position here. This guarantees the trade is not a full loss. Move SL to breakeven immediately after TP1 is hit.<br><br>
+        <strong style="color:var(--text-bright)">TP2 — Standard (2:1 to 3:1 R:R):</strong> The opposing session's liquidity pool. For a long taken off the AM session low, TP2 is the AM session high or PDH. For a short, it's the SSL below. Let the runner reach here.<br><br>
+        <strong style="color:var(--text-bright)">TP3 — Runner (4:1+):</strong> A major PD Array on a higher timeframe. Weekly highs/lows, monthly levels, or the daily range extension. Trail the SL behind each new structural swing after TP2 is hit.
+      </div>
+
+      <div class="callout cyan">
+        <div class="callout-label">Breakeven Protocol</div>
+        The moment TP1 is reached and you have closed partial profits — move your stop loss to your exact entry price plus spread. You now have a risk-free trade on the runner. Never let a trade that hit TP1 become a full loss. This single habit separates growing accounts from blown accounts.
+      </div>
+
+      <div class="callout red">
+        <div class="callout-label">Manual Invalidation Signal</div>
+        If after your entry, price reverses and closes a full candle body beyond the swept liquidity level — the setup has structurally failed regardless of where your stop is. Close the trade immediately at market. Do not wait for your mechanical stop. Preserving capital takes priority over waiting for the stop to hit.
+      </div>
+    </div>
+
+    <!-- ── 08 RISK ── -->
+    <div class="section" id="risk">
+      <div class="section-header">
+        <span class="sec-num">08</span>
+        <h2 class="sec-title">Risk Management Model</h2>
+      </div>
+
+      <div class="risk-stats">
+        <div class="rstat"><div class="rv">1%</div><div class="rl">Max Risk / Trade</div></div>
+        <div class="rstat"><div class="rv">3%</div><div class="rl">Max Daily Loss</div></div>
+        <div class="rstat"><div class="rv">1</div><div class="rl">Trade / Window</div></div>
+        <div class="rstat"><div class="rv">2:1</div><div class="rl">Min R:R Required</div></div>
+      </div>
+
+      <div class="callout cyan">
+        <div class="callout-label">Position Sizing Formula</div>
+        <code style="font-family:var(--mono);color:var(--neon-cyan);font-size:13px;display:block;padding:4px 0;">
+          Position Size = (Account × Risk%) ÷ (SL Distance × Pip/Point Value)
+        </code>
+        <br>Example: $10,000 account · 1% risk = $100 at risk. SL = 10 pips on EURUSD (pip value $10 per standard lot). Position = $100 ÷ (10 × $10) = 1.0 standard lot.
+      </div>
+
+      <div class="two-col">
+        <div class="rule-card">
+          <div class="ri">🛑</div>
+          <h5>Daily Loss Limit — Hard Stop</h5>
+          <p>Three percent drawdown in a single day means you stop trading for that calendar day. Full stop. Close the platform if that helps. The market will be there tomorrow. A 3% drawdown recovered the next day is nothing. A 20% drawdown from revenge trading is devastating.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">📈</div>
+          <h5>Scaling Your Risk Over Time</h5>
+          <p>Begin at 0.25% per trade during the learning phase. Move to 0.5% after 30 consistent, journaled executions. Only trade 1% per setup after 3 months of consistently positive R:R results in your live journal. Never increase risk to recover losses faster.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">📊</div>
+          <h5>Win Rate Expectation</h5>
+          <p>The Silver Bullet is a quality model — not a high-frequency model. Expect 1–3 valid setups per day. A 40–50% win rate with an average 2.5:1 R:R creates a highly profitable long-term expectancy. Optimizing for win rate over R:R is a beginner trap.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">🏆</div>
+          <h5>Never Add to Losing Positions</h5>
+          <p>Adding to a position that is currently at a loss — hoping for a reversal — is called "averaging down" and it violates every principle of institutional order flow thinking. Your entry was based on a specific structure. If that structure is wrong, adding more size does not fix the logic.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 09 DISCIPLINE ── -->
+    <div class="section" id="discipline">
+      <div class="section-header">
+        <span class="sec-num">09</span>
+        <h2 class="sec-title">The Discipline Code</h2>
+      </div>
+
+      <div class="two-col">
+        <div class="rule-card">
+          <div class="ri">🌅</div>
+          <h5>Pre-Session Routine — Required</h5>
+          <p>Before any chart opens: 1) Read the daily bias. 2) Mark PDH, PDL, weekly open. 3) Mark all visible liquidity pools on 15m. 4) Check news calendar. 5) Write your bias sentence in your journal. Only after these five steps do you open your execution chart.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">⛔</div>
+          <h5>The Things You Will Never Do</h5>
+          <p>Widen a stop loss that is about to be hit. Enter a trade after the window closes. Take a third trade in one day after two losses. Enter without a journaled bias. Trade during high-impact news. Move profit targets further because "it looks like it'll go." These are not suggestions — they are the code.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">📓</div>
+          <h5>Post-Trade Documentation — Required</h5>
+          <p>After every trade — wins, losses, and skips — take a chart screenshot and log the entry in this journal. Record: window, bias, sweep level, FVG quality, entry, SL, TP, outcome, and one specific lesson. The journal is where your edge is discovered and your mistakes are corrected.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">🔄</div>
+          <h5>Weekly Review Protocol</h5>
+          <p>Every Friday: calculate total R:R for the week. Identify your most common mistake. Identify your best execution. Set one specific behavioral improvement for next week. Watch 2 ICT educational pieces focused on that improvement area. This compound review process is what separates traders who improve from those who stagnate.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">😤</div>
+          <h5>Handling Missed Setups</h5>
+          <p>You will watch perfect setups run 100 points without you. This is expected and irrelevant to your growth. A missed trade costs zero dollars. A trade taken out of fear of missing costs real money. There is always another window. There is always another day. The market owes you nothing — including participation in every move.</p>
+        </div>
+        <div class="rule-card">
+          <div class="ri">🕔</div>
+          <h5>Session End Cutoff</h5>
+          <p>All Silver Bullet activity ends at 15:00 EST when the final window closes. Do not hold intraday setups into the afternoon session without a structural reason. Do not take new entries after 15:01. Evening and overnight trading is a different discipline entirely — do not conflate the two.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── 10 ICT PHILOSOPHY ── -->
+    <div class="section" id="philosophy">
+      <div class="section-header">
+        <span class="sec-num">10</span>
+        <h2 class="sec-title">ICT Core Teachings & Mindset</h2>
+      </div>
+
+      <p style="font-size:14px;margin-bottom:22px;color:var(--text-muted);">The following are paraphrased summaries of key teachings from Michael J. Huddleston's public educational content. These principles underpin every element of the Silver Bullet model.</p>
+
+      <div class="philosophy-box">
+        <p>The market is a delivery mechanism, not a chaotic system. It delivers price from one liquidity pool to another with purpose and precision.</p>
+        <cite>ICT Teaching · Market Structure Fundamentals</cite>
+      </div>
+
+      <div class="callout">
+        <div class="callout-label">On Patience & Selectivity</div>
+        ICT consistently teaches that the biggest mistake developing traders make is over-trading — searching for setups in every candle, every session, every instrument. The skill is not in finding more trades; it is in waiting for the specific sequence of conditions that give the highest probability outcome, then executing with precision. Fewer trades, higher quality, larger position sizing within your risk rules — this is the professional approach.
+      </div>
+
+      <div class="callout cyan">
+        <div class="callout-label">On Stop Hunting & Market Makers</div>
+        ICT's foundational concept is that retail traders cluster their stop losses at obvious technical levels — swing highs, swing lows, round numbers, chart patterns. Institutions and market makers know where these clusters exist. Before a major directional move, they orchestrate a temporary price spike into these areas to collect liquidity (trigger the retail stops), fill their own large orders at those price levels, then deliver price in the actual intended direction. The Silver Bullet is built entirely around identifying and trading this sequence.
+      </div>
+
+      <div class="callout green">
+        <div class="callout-label">On Reading Order Flow vs Price Action</div>
+        Traditional price action trading focuses on candle patterns and chart formations. ICT teaches a different paradigm: instead of asking "what does this candle pattern mean," you ask "where is the liquidity that institutions need to access before they can move price?" The shape of the candle is secondary to the context of where it forms relative to liquidity pools and time-of-day. A hammer candle at a random location means nothing. A wick rejection candle sweeping an equal low during the 10:00 AM window means everything.
+      </div>
+
+      <div class="philosophy-box">
+        <p>Time and price are the two most important variables in this business. If you have both aligned, you have an edge. If you only have one, you have noise.</p>
+        <cite>ICT Teaching · Time-Based Trading Models</cite>
+      </div>
+
+      <div class="callout" style="border-left-color:var(--neon-purple);background:rgba(176,106,255,0.05);">
+        <div class="callout-label" style="color:var(--neon-purple)">On Trusting the Model vs Trusting Your Feelings</div>
+        One of ICT's most repeated lessons addresses the psychological conflict between what the model says to do and what "feels" right in the moment. A trader who has back-tested and forward-tested a model with documented evidence knows what the edge looks like. When a setup checks all the criteria, the trader's job is execution — not re-evaluation, not second-guessing, not waiting for more confirmation. Confidence comes from the record in your journal, not from the feeling in the moment.
+      </div>
+
+      <div class="callout red">
+        <div class="callout-label">On Losses & Process</div>
+        ICT is explicit on this point: a losing trade that followed every rule of the model is not a failure — it is the cost of doing business. The market will take money from you on individual trades. This is unavoidable. What determines long-term success is whether you followed your rules, maintained your risk management, documented the trade, and extracted a lesson. A loss taken within the rules is learning. A loss taken outside the rules is damage — to your account and to your ability to develop a consistent process.
+      </div>
+
+      <div class="philosophy-box">
+        <p>Stop focusing on making money. Start focusing on executing the model correctly. The money is a byproduct of correct execution repeated over time.</p>
+        <cite>ICT Teaching · Trading Psychology</cite>
+      </div>
+    </div>
+
+    <!-- ── 11 CHECKLIST ── -->
+    <div class="section" id="checklist">
+      <div class="section-header">
+        <span class="sec-num">11</span>
+        <h2 class="sec-title">Pre-Trade Execution Checklist</h2>
+      </div>
+
+      <p style="font-size:14px;margin-bottom:16px;color:var(--text-muted);">Run through every item before you place any order. Click each box to check it off.</p>
+
+      <ul class="checklist" id="cl">
+        <li><div class="cb" onclick="chk(this)"></div><span>HTF daily/4H bias is established and written in my journal for today</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>PDH, PDL, and weekly opening price are marked on my chart</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>All equal highs, equal lows, and session swing points are marked on 15m and 1m</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>Economic calendar is checked — no high-impact news within or just before this window</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>I am inside one of the three valid windows: 3AM, 10AM, or 2PM EST</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>I have NOT entered yet — I am in passive observation mode waiting for the sweep</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>The liquidity sweep has clearly occurred: price spiked through a marked pool and reversed</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>A valid 3-candle FVG has formed AFTER the sweep in the opposing direction</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>My entry direction aligns with my pre-session HTF bias</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>Stop loss is placed beyond the swept liquidity level — not inside the FVG</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>R:R is at minimum 2:1 — TP is at least double the distance of my SL</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>Position size is calculated to risk exactly my pre-set % — not a round lot guessed</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>TP1, TP2 levels are drawn and limit orders are set before entry executes</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>I am not in an emotional state from a prior loss or missed setup</span></li>
+        <li><div class="cb" onclick="chk(this)"></div><span>This is my first (and only permitted) entry for this window</span></li>
+      </ul>
+    </div>
+
+    <!-- ── 12 JOURNAL LOG ── -->
+    <div class="section" id="log">
+      <div class="section-header">
+        <span class="sec-num">12</span>
+        <h2 class="sec-title">Trade Journal Log ✏ Editable</h2>
+      </div>
+
+      <div class="callout cyan">
+        <div class="callout-label">How to Use This Log</div>
+        Every cell is directly editable — click any cell and type. Use <strong style="color:var(--neon-cyan)">+ Add Row</strong> to log a new trade. Click <strong style="color:var(--neon-gold)">💾 Save</strong> to store everything in your browser (survives page refresh). Use <strong style="color:var(--neon-green)">↓ Export CSV</strong> to download a spreadsheet copy. Your data is saved locally to this device.
+      </div>
+
+      <div class="journal-toolbar">
+        <button class="j-btn j-btn-add" onclick="addRow()">＋ Add Row</button>
+        <button class="j-btn j-btn-save" onclick="saveJournal()">💾 Save Journal</button>
+        <button class="j-btn j-btn-csv" onclick="exportCSV()">↓ Export CSV</button>
+        <button class="j-btn j-btn-clear" onclick="clearAll()">✕ Clear All</button>
+        <span class="j-status" id="save-status">Unsaved changes</span>
+      </div>
+
+      <div class="table-wrap">
+        <table id="journal-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Date</th>
+              <th>Window</th>
+              <th>Pair/Asset</th>
+              <th>Bias</th>
+              <th>Sweep Level</th>
+              <th>Entry</th>
+              <th>Stop Loss</th>
+              <th>TP1</th>
+              <th>TP2</th>
+              <th>R:R</th>
+              <th>Result</th>
+              <th>P&L %</th>
+              <th>Notes / Lesson</th>
+              <th>Del</th>
+            </tr>
+          </thead>
+          <tbody id="journal-body">
+            <!-- rows injected by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout" style="margin-top:16px;">
+        <div class="callout-label">Journal Habit</div>
+        A <strong style="color:var(--text-bright)">SKIP</strong> row is as important as a trade row. If you watched the full window and no valid setup formed — log it. Document what you looked for and why you did not trade. This builds the mental database that eventually makes setup identification automatic.
+      </div>
+    </div>
+
+    <!-- ── 13 GLOSSARY ── -->
+    <div class="section" id="glossary">
+      <div class="section-header">
+        <span class="sec-num">13</span>
+        <h2 class="sec-title">ICT Glossary — Silver Bullet Terms</h2>
+      </div>
+
+      <div class="gloss-item"><div class="gloss-term">FVG</div><div class="gloss-def">Fair Value Gap. A 3-candle price inefficiency where candle 1's wick and candle 3's wick leave an unfilled gap. This imbalance represents a zone where price traded so quickly that not all buy/sell orders were matched. Price gravitates back to these zones before resuming the prior direction.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Liquidity Pool</div><div class="gloss-def">A price area where a cluster of resting orders (primarily stop losses) are known to exist. Formed by obvious technical levels like equal highs/lows, swing points, previous session extremes, and round numbers. The draw for institutional order flow seeking to fill large positions.</div></div>
+      <div class="gloss-item"><div class="gloss-term">BSL / SSL</div><div class="gloss-def">Buy-Side Liquidity (resting stops above highs — sell stops trigger a buy surge) and Sell-Side Liquidity (resting stops below lows — buy stops trigger a sell surge). Smart money hunts BSL before bearish moves and SSL before bullish moves to fill their own institutional positions.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Liquidity Sweep</div><div class="gloss-def">The act of price trading through a liquidity pool, triggering the resting stop orders there, then reversing sharply. The sweep is the first confirmation event in the Silver Bullet sequence. It can manifest as a pronounced wick or a brief series of candles that penetrate and immediately reverse from the liquidity level.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Kill Zone</div><div class="gloss-def">A specific 60-minute window of elevated institutional price delivery activity. Silver Bullet kill zones: London Open (3–4 AM EST), NY AM (10–11 AM EST), NY PM (2–3 PM EST). Trading outside these windows using this model removes the core time-based edge.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Order Block (OB)</div><div class="gloss-def">The final opposing candle before a significant institutional price delivery move. A bullish order block is the last bearish candle before a strong bullish impulse. Price often returns to order blocks as they represent zones where institutions placed large directional orders — making them high-probability support/resistance on the next retest.</div></div>
+      <div class="gloss-item"><div class="gloss-term">PD Array</div><div class="gloss-def">Premium/Discount Array. The ranked hierarchy of institutional price levels: Breaker Block > Mitigation Block > FVG > Order Block > Rejection Block > Void. Used to identify which zones carry the highest probability of price reaction. The Silver Bullet FVG entry is more powerful when it coincides with a higher-ranked PD Array level.</div></div>
+      <div class="gloss-item"><div class="gloss-term">AMD Cycle</div><div class="gloss-def">Accumulation – Manipulation – Distribution. The 3-phase daily delivery model. Accumulation: Asian range defines the initial order book. Manipulation: London/NY open raids liquidity in one direction (the "fake" move that traps retail traders). Distribution: Price delivers to its actual target in the opposing direction. The Silver Bullet targets the transition from Manipulation to Distribution.</div></div>
+      <div class="gloss-item"><div class="gloss-term">PDH / PDL</div><div class="gloss-def">Previous Day's High and Previous Day's Low. Primary liquidity reference points marked before every session. PDH carries buy-side liquidity (stops from short sellers and breakout buyers). PDL carries sell-side liquidity. These are among the first levels to check when mapping your Silver Bullet session setup.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Displacement</div><div class="gloss-def">A strong, one-directional institutional price delivery move characterized by large-bodied candles with minimal wicks, creating one or more FVGs in its wake. Displacement after a liquidity sweep is the second confirmation in the Silver Bullet sequence — confirming that institutions have filled their orders and are now delivering price.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Inducement</div><div class="gloss-def">A deceptive setup structure designed to trap premature entries. An FVG that forms before the liquidity sweep has occurred is inducement — it will likely be invalidated when the sweep happens. ICT teaches that if a setup looks almost too perfect before any sweep has occurred, it is probably inducement. Wait for the actual sweep first, always.</div></div>
+      <div class="gloss-item"><div class="gloss-term">NWOG / NDOG</div><div class="gloss-def">New Week Opening Gap / New Day Opening Gap. Price inefficiencies created between session closes and opens. These gaps represent unfilled orders and act as magnets for price delivery. A Silver Bullet setup near an NDOG has additional confluence because institutional delivery toward the gap aligns with the setup direction.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Dealing Range</div><div class="gloss-def">The high-to-low range of a given reference period (daily, weekly, monthly). The upper half of the dealing range is considered premium (favorable for sells, unfavorable for new buys). The lower half is discount (favorable for buys, unfavorable for new sells). Silver Bullet longs should be taken in discount; shorts in premium.</div></div>
+      <div class="gloss-item"><div class="gloss-term">Breaker Block</div><div class="gloss-def">A failed order block — an order block that price has already traded through and broken. Once broken, the prior support becomes resistance and vice versa. Breaker blocks rank higher than standard order blocks in the PD Array hierarchy and represent zones where institutions have both stops and new directional orders resting.</div></div>
+    </div>
+
+  </div><!-- /content -->
+
+  <div class="footer">
+    <span class="neon-line"></span>
+    ICT Silver Bullet Master Journal · All content based on public ICT educational concepts
+    <br>by Michael J. Huddleston · Study · Execute · Journal · Repeat
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════════ -->
+<script>
+/* ── DEFAULT TRADE ROWS ── */
+const defaultRows = [
+  {date:'2025-01-10', window:'10–11 AM', pair:'NQ Futures', bias:'Bull', sweep:'PDL @ 21,420', entry:'21,435', sl:'21,408', tp1:'21,470', tp2:'21,520', rr:'1:2.3', result:'WIN', pnl:'+2.3%', notes:'Clean sweep of overnight low. FVG formed in 3 candles, held on first touch. TP1 hit, moved SL to BE, runner ran to TP2.'},
+  {date:'2025-01-11', window:'10–11 AM', pair:'ES Futures', bias:'Bear', sweep:'EQH @ 5,102', entry:'5,098', sl:'5,106', tp1:'5,086', tp2:'5,072', rr:'1:2.1', result:'WIN', pnl:'+2.1%', notes:'Equal highs swept at open, FVG at 5098–5100, sharp sell-off to TP1. Closed 50% at TP1, rest at TP2.'},
+  {date:'2025-01-13', window:'3–4 AM', pair:'EURUSD', bias:'Bull', sweep:'SSL @ 1.0840', entry:'1.0848', sl:'1.0835', tp1:'1.0862', tp2:'1.0880', rr:'1:1.7', result:'LOSS', pnl:'–1.0%', notes:'Swept SSL, FVG formed. News release hit 20 min into window. Should have checked calendar — lesson: always verify news first.'},
+  {date:'2025-01-14', window:'2–3 PM', pair:'NQ Futures', bias:'Bear', sweep:'—', entry:'—', sl:'—', tp1:'—', tp2:'—', rr:'—', result:'SKIP', pnl:'0%', notes:'Window opened, no clean sweep of a pre-marked level. Watched the full 60 minutes. No trade taken. Disciplined skip.'},
+  {date:'2025-01-15', window:'10–11 AM', pair:'GBPUSD', bias:'Bull', sweep:'PDL @ 1.2640', entry:'1.2651', sl:'1.2633', tp1:'1.2670', tp2:'1.2695', rr:'1:2.4', result:'WIN', pnl:'+2.4%', notes:'PDL swept with a strong wick. FVG formed immediately. TP1 at 1.2670, moved to BE, TP2 at 1.2695 hit 30 min later.'},
+];
+
+let rows = [];
+
+/* ── LOAD FROM STORAGE ── */
+function loadJournal() {
+  try {
+    const saved = localStorage.getItem('ict_sb_journal');
+    rows = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(defaultRows));
+  } catch(e) {
+    rows = JSON.parse(JSON.stringify(defaultRows));
+  }
+  renderTable();
+  setStatus('saved');
+}
+
+/* ── SAVE ── */
+function saveJournal() {
+  collectFromDOM();
+  try {
+    localStorage.setItem('ict_sb_journal', JSON.stringify(rows));
+    setStatus('saved');
+  } catch(e) {
+    setStatus('error');
+  }
+}
+
+/* ── STATUS ── */
+function setStatus(state) {
+  const el = document.getElementById('save-status');
+  if(state === 'saved') {
+    el.textContent = '✓ Saved — ' + new Date().toLocaleTimeString();
+    el.className = 'j-status saved';
+  } else if(state === 'error') {
+    el.textContent = '⚠ Save failed';
+    el.className = 'j-status';
+  } else {
+    el.textContent = '● Unsaved changes';
+    el.className = 'j-status';
+  }
+}
+
+/* ── COLLECT DATA FROM DOM ── */
+function collectFromDOM() {
+  const tbody = document.getElementById('journal-body');
+  const trs = tbody.querySelectorAll('tr');
+  rows = [];
+  trs.forEach(tr => {
+    const cells = tr.querySelectorAll('td[contenteditable]');
+    if(cells.length >= 14) {
+      rows.push({
+        date:   cells[0].innerText.trim(),
+        window: cells[1].innerText.trim(),
+        pair:   cells[2].innerText.trim(),
+        bias:   cells[3].innerText.trim(),
+        sweep:  cells[4].innerText.trim(),
+        entry:  cells[5].innerText.trim(),
+        sl:     cells[6].innerText.trim(),
+        tp1:    cells[7].innerText.trim(),
+        tp2:    cells[8].innerText.trim(),
+        rr:     cells[9].innerText.trim(),
+        result: cells[10].innerText.trim(),
+        pnl:    cells[11].innerText.trim(),
+        notes:  cells[12].innerText.trim(),
+      });
+    }
+  });
+}
+
+/* ── RENDER TABLE ── */
+function renderTable() {
+  const tbody = document.getElementById('journal-body');
+  tbody.innerHTML = '';
+  rows.forEach((r, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td style="color:var(--text-muted);font-size:11px;width:32px;">${i+1}</td>
+      <td contenteditable="true" oninput="markDirty()">${r.date || ''}</td>
+      <td contenteditable="true" oninput="markDirty()">${r.window || ''}</td>
+      <td contenteditable="true" oninput="markDirty()">${r.pair || ''}</td>
+      <td contenteditable="true" oninput="markDirty()" style="color:${r.bias==='Bull'?'var(--neon-green)':r.bias==='Bear'?'var(--neon-red)':'var(--text)'}">${r.bias || ''}</td>
+      <td contenteditable="true" oninput="markDirty()">${r.sweep || ''}</td>
+      <td contenteditable="true" oninput="markDirty()" style="color:var(--neon-cyan)">${r.entry || ''}</td>
+      <td contenteditable="true" oninput="markDirty()" style="color:var(--neon-red)">${r.sl || ''}</td>
+      <td contenteditable="true" oninput="markDirty()" style="color:var(--neon-green)">${r.tp1 || ''}</td>
+      <td contenteditable="true" oninput="markDirty()" style="color:var(--neon-green)">${r.tp2 || ''}</td>
+      <td contenteditable="true" oninput="markDirty()">${r.rr || ''}</td>
+      <td contenteditable="true" oninput="markDirty()">${buildResultBadge(r.result)}</td>
+      <td contenteditable="true" oninput="markDirty()" style="color:${r.pnl&&r.pnl.startsWith('+') ? 'var(--neon-green)' : r.pnl&&r.pnl.startsWith('-') ? 'var(--neon-red)' : 'var(--text-muted)'}">${r.pnl || ''}</td>
+      <td contenteditable="true" oninput="markDirty()" class="note-cell">${r.notes || ''}</td>
+      <td><button class="del-btn" onclick="deleteRow(${i})">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function buildResultBadge(result) {
+  if(!result) return '';
+  const map = { WIN:'win-badge', LOSS:'loss-badge', SKIP:'skip-badge', OPEN:'open-badge', BE:'skip-badge' };
+  const cls = map[result.toUpperCase()] || 'skip-badge';
+  return `<span class="badge ${cls}">${result}</span>`;
+}
+
+/* ── ADD ROW ── */
+function addRow() {
+  collectFromDOM();
+  rows.push({date:'', window:'', pair:'', bias:'', sweep:'', entry:'', sl:'', tp1:'', tp2:'', rr:'', result:'', pnl:'', notes:''});
+  renderTable();
+  markDirty();
+  // scroll to new row
+  const tbody = document.getElementById('journal-body');
+  const lastRow = tbody.lastElementChild;
+  if(lastRow) {
+    lastRow.scrollIntoView({ behavior:'smooth', block:'center' });
+    const firstCell = lastRow.querySelector('td[contenteditable]');
+    if(firstCell) { firstCell.focus(); }
+  }
+}
+
+/* ── DELETE ROW ── */
+function deleteRow(idx) {
+  if(!confirm('Delete this trade entry?')) return;
+  collectFromDOM();
+  rows.splice(idx, 1);
+  renderTable();
+  markDirty();
+}
+
+/* ── CLEAR ALL ── */
+function clearAll() {
+  if(!confirm('Clear ALL trade entries? This cannot be undone.')) return;
+  rows = [];
+  renderTable();
+  markDirty();
+}
+
+/* ── MARK DIRTY ── */
+function markDirty() {
+  setStatus('dirty');
+}
+
+/* ── EXPORT CSV ── */
+function exportCSV() {
+  collectFromDOM();
+  const headers = ['#','Date','Window','Pair/Asset','Bias','Sweep Level','Entry','Stop Loss','TP1','TP2','R:R','Result','P&L %','Notes'];
+  const lines = [headers.join(',')];
+  rows.forEach((r,i) => {
+    const row = [
+      i+1,
+      `"${r.date}"`,
+      `"${r.window}"`,
+      `"${r.pair}"`,
+      `"${r.bias}"`,
+      `"${r.sweep}"`,
+      `"${r.entry}"`,
+      `"${r.sl}"`,
+      `"${r.tp1}"`,
+      `"${r.tp2}"`,
+      `"${r.rr}"`,
+      `"${r.result}"`,
+      `"${r.pnl}"`,
+      `"${r.notes.replace(/"/g,"'")}"`,
+    ];
+    lines.push(row.join(','));
+  });
+  const blob = new Blob([lines.join('\n')], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'silver-bullet-journal.csv';
+  a.click();
+}
+
+/* ── CHECKLIST TOGGLE ── */
+function chk(el) {
+  el.classList.toggle('on');
+  const li = el.closest('li');
+  li.classList.toggle('done');
+  // save checklist state
+  const items = document.querySelectorAll('#cl .cb');
+  const states = Array.from(items).map(cb => cb.classList.contains('on'));
+  localStorage.setItem('ict_sb_checklist', JSON.stringify(states));
+}
+
+function loadChecklist() {
+  try {
+    const saved = localStorage.getItem('ict_sb_checklist');
+    if(!saved) return;
+    const states = JSON.parse(saved);
+    const items = document.querySelectorAll('#cl .cb');
+    items.forEach((cb, i) => {
+      if(states[i]) {
+        cb.classList.add('on');
+        cb.closest('li').classList.add('done');
+      }
+    });
+  } catch(e) {}
+}
+
+/* ── ACTIVE NAV ── */
+const sections = document.querySelectorAll('.section[id]');
+const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting) {
+      navLinks.forEach(n => n.classList.remove('active'));
+      const a = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, { rootMargin: '-25% 0px -65% 0px' });
+
+sections.forEach(s => observer.observe(s));
+
+navLinks.forEach(link => {
+  link.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(link.getAttribute('href'));
+    if(t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+  });
+});
+
+/* ── AUTO-SAVE ON EDIT ── */
+let autoSaveTimer;
+document.addEventListener('input', e => {
+  if(e.target.closest('#journal-table')) {
+    clearTimeout(autoSaveTimer);
+    autoSaveTimer = setTimeout(() => saveJournal(), 1500);
+  }
+});
+
+/* ── INIT ── */
+window.addEventListener('DOMContentLoaded', () => {
+  loadJournal();
+  loadChecklist();
+});
+</script>
+</body>
+</html>
